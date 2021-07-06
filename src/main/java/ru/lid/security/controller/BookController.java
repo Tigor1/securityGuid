@@ -2,6 +2,8 @@ package ru.lid.security.controller;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.lid.security.dto.BookDTO;
@@ -19,8 +21,8 @@ public class BookController {
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
-    public List<Book> getBooks() {
-        return bookRepository.findAll();
+    public ResponseEntity<List<Book>> getBooks() {
+        return new ResponseEntity<>(bookRepository.findAll(), HttpStatus.OK);
     }
 
 

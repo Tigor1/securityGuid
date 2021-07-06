@@ -15,8 +15,6 @@ public class MappingDTOService {
         return new User(
                 userDTO.getUsername(),
                 passwordEncoder.encode(userDTO.getPassword()),
-                userDTO.getFirstName(),
-                userDTO.getLastName(),
                 userDTO.getEmail(),
                 userDTO.getAge(),
                 userDTO.getRoles()

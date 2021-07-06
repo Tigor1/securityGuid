@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 20210624/account
+      author: lid
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            endDelimiter: \n;;
+            path: db/changelog/2021_06_24_create_schema.sql
+            splitStatements: true
+            stripComments: true
+  - changeSet:
+      id: 20210625/account
+      author: lid
+      changes:
+        - sqlFile:
+            dbms: postgresql
+            endDelimiter: \n;;
+            path: db/changelog/2021_06_24_create_sequence.sql
+            splitStatements: true
+            stripComments: true

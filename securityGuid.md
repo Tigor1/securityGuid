@@ -337,3 +337,54 @@ Sometimes, an application has logical groups of protected resources (for example
 such as /api/**), and each group can have its own dedicated AuthenticationManager. Often, each of those is a ProviderManager, 
 and they share a parent. The parent is then a kind of “global” resource, acting as a fallback for all providers.
 ![img.png](images/img.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TrustManager: определяет, следует ли доверять учетным данным удаленной аутентификации (и, следовательно, соединению). 
+KeyManager: определяет, какие учетные данные для аутентификации отправлять на удаленный хост. (Доступны и другие параметры, и их 
+значения по умолчанию описаны в справочном руководстве JSSE. 
+
+Обратите внимание, что, хотя для хранилища доверенных сертификатов есть значение по умолчанию, для хранилища ключей его нет.) 
+По сути, хранилище ключей в javax.net. ssl.keyStore предназначен для хранения ваших закрытых ключей и сертификатов, тогда как
+javax.net.ssl.trustStore предназначен для хранения сертификатов CA, которым вы готовы доверять, когда удаленная сторона 
+представляет свой сертификат. В некоторых случаях это может быть одно и то же хранилище, хотя часто лучше использовать разные 
+хранилища (особенно когда они основаны на файлах).
+
+
+JKS, Java Key Store. You can find this file at sun.security.provider.JavaKeyStore. This keystore is Java specific, it usually has 
+an extension of jks. This type of keystore can contain private keys and certificates, but it cannot be used to store secret keys. 
+Since it's a Java specific keystore, so it cannot be used in other programming languages.
+
+PKCS12, this is a standard keystore type which can be used in Java and other languages. You can find this keystore implementation 
+at sun.security.pkcs12.PKCS12KeyStore. It usually has an extension of p12 or pfx. You can store private keys, secret keys and 
+certificates on this type.
+
+
+In cryptography, X.509 is a standard defining the format of public key certificates.
+
+**Certificate filename extensions**
+
+There are several commonly used filename extensions for X.509 certificates. Unfortunately, some of these extensions are also used for other data such as private keys.
+
+.pem – (Privacy-enhanced Electronic Mail) Base64 encoded DER certificate, enclosed between "-----BEGIN CERTIFICATE-----" and "-----END CERTIFICATE-----"
+.cer, .crt, .der – usually in binary DER form, but Base64-encoded certificates are common too (see .pem above)
+.p7b, .p7c – PKCS#7 SignedData structure without data, just certificate(s) or CRL(s)
+.p12 – PKCS#12, may contain certificate(s) (public) and private keys (password protected)
+.pfx – PFX, predecessor of PKCS#12 (usually contains data in PKCS#12 format, e.g., with PFX files generated in IIS)
+PKCS#7 is a standard for signing or encrypting (officially called "enveloping") data. Since the certificate is needed to verify signed data, it is possible to include them in the SignedData structure. A .P7C file is a degenerated SignedData structure, without any data to sign.[citation needed]
+
+PKCS#12 evolved from the personal information exchange (PFX) standard and is used to exchange public and private objects in a single file.
+
+https://colinpaice.blog/2021/03/18/pkcs11-pkcs12-cms-jks-p12-nss-which-type-of-keystore-should-i-use/

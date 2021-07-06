@@ -11,38 +11,59 @@ import ru.lid.security.security.Role;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "users")
+@Table(schema = "principal", name = "account")
 public class User implements UserDetails {
     @Id
-    @SequenceGenerator(name = "role_seq", sequenceName = "role_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_seq")
-    private Long id;
+//    @SequenceGenerator(schema = "principal", name = "role_seq", sequenceName = "role_seq", allocationSize = 1)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_seq")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     private String username;
     private String password;
-    private String firstName;
-    private String lastName;
     private String email;
+    private Date created;
+
+    @Column(name = "last_login_time")
+    private Date lastLoginTime;
+
+    @Column(name = "is_non_expired")
+    private boolean isAccountNonExpired;
+
+    @Column(name = "is_non_lock")
+    private boolean isAccountNonLock;
+
+    @Column(name = "is_credentials_expired")
+    private boolean isCredentialsNonExpired;
+
+    @Column(name = "is_enable")
+    private boolean isEnable;
     private int age;
 
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @Enumerated(EnumType.ORDINAL)
-    @CollectionTable(name = "roles", joinColumns = @JoinColumn(name = "role_id"))
+    @CollectionTable(schema = "principal", name = "role", joinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
-    public User(String username, String password, String firstName, String lastName, String email, int age, List<Role> roles) {
+    public User(String username, String password, String email, int age, List<Role> roles) {
         this.username = username;
         this.password = password;
-        this.firstName = firstName;
-        this.lastName = lastName;
         this.email = email;
         this.age = age;
+        this.isAccountNonExpired = true;
+        this.isAccountNonLock = true;
+        this.isCredentialsNonExpired = true;
+        this.isEnable = true;
+        this.created = new Date();
+        this.lastLoginTime = new Date();
         this.roles = roles;
     }
 

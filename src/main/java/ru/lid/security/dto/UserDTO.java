@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.lid.security.model.User;
 import ru.lid.security.security.Role;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -17,8 +18,6 @@ import java.util.List;
 public class UserDTO {
     private String username;
     private String password;
-    private String firstName;
-    private String lastName;
     private String email;
     private int age;
     private List<Role> roles;

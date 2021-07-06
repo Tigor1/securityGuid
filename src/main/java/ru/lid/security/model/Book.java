@@ -6,15 +6,18 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
 
 @NoArgsConstructor
 @Data
 @Entity
+@Table(schema = "principal", name = "book")
 public class Book {
     @Id
-    @SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_seq")
-    private Long id;
+//    @SequenceGenerator(schema = "principal", name = "book_seq", sequenceName = "book_seq", allocationSize = 1)
+//    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
     private String title;
     private Date release;
 
